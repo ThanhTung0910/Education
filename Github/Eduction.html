@@ -266,6 +266,41 @@
     </div>
 
     <script>
+        // Kiểm tra đăng nhập ngay khi trang load
+        window.onload = function() {
+            const isLoggedIn = sessionStorage.getItem('isLoggedIn');
+            const currentUser = sessionStorage.getItem('currentUser');
+            
+            if (!isLoggedIn) {
+                alert('Vui lòng đăng nhập để truy cập!');
+                window.location.href = './index.html';
+                return;
+            }
+            
+            // Hiển thị thông tin người dùng nếu đã đăng nhập
+            if (currentUser) {
+                // Thêm phần hiển thị user vào header
+                const header = document.querySelector('.header');
+                const userInfo = document.createElement('div');
+                userInfo.style.position = 'absolute';
+                userInfo.style.right = '20px';
+                userInfo.style.top = '20px';
+                userInfo.style.color = 'white';
+                userInfo.innerHTML = `
+                    <span>Xin chào, ${currentUser}</span>
+                    <button onclick="logout()" style="margin-left: 10px; padding: 5px 10px; border-radius: 5px; cursor: pointer;">Đăng xuất</button>
+                `;
+                header.appendChild(userInfo);
+            }
+        };
+
+        // Hàm đăng xuất
+        function logout() {
+            sessionStorage.removeItem('isLoggedIn');
+            sessionStorage.removeItem('currentUser');
+            window.location.href = './index.html';
+        }
+
         // Xử lý tìm kiếm
         function searchUniversities() {
             const university = document.getElementById('university').value;
